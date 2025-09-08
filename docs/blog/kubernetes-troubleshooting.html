@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes Troubleshooting - Shantanu Kokate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .blog-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .blog-detail-header {
+            margin-bottom: 2rem;
+        }
+        
+        .blog-detail-date {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .blog-detail-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+        
+        .blog-detail-content {
+            line-height: 1.8;
+            color: #334155;
+        }
+        
+        .blog-detail-content h2 {
+            font-family: 'Playfair Display', serif;
+            margin: 2rem 0 1rem;
+            color: #1e40af;
+        }
+        
+        .blog-detail-content h3 {
+            margin: 1.5rem 0 0.5rem;
+            color: #334155;
+        }
+        
+        .blog-detail-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .blog-detail-content pre {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .blog-detail-content code {
+            background-color: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .problem-solution {
+            background-color: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+        
+        .problem-solution h3 {
+            color: #1e40af;
+            margin-top: 0;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-detail {
+                padding: 1rem;
+            }
+            
+            .blog-detail-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">SK</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../blog.html" class="nav-link active">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../projects.html" class="nav-link">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../contact.html" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Kubernetes Troubleshooting</h1>
+                <p>Solving real-world DevOps challenges</p>
+            </div>
+        </section>
+
+        <section class="blog-detail">
+            <div class="container">
+                <div class="blog-detail-header">
+                    <div class="blog-detail-date">September 5, 2025</div>
+                    <h1 class="blog-detail-title">Kubernetes Troubleshooting: Solving PVC Pending & Ingress Not Working</h1>
+                    <div class="blog-tags">
+                        <span class="tag">Kubernetes</span>
+                        <span class="tag">Troubleshooting</span>
+                        <span class="tag">PVC</span>
+                        <span class="tag">Ingress</span>
+                        <span class="tag">StorageClass</span>
+                    </div>
+                </div>
+
+                <div class="blog-detail-content">
+                    <p>Recently, while practicing Kubernetes deployments, I ran into two real-world problems that tested my debugging skills. Let me walk you through how I solved them.</p>
+
+                    <div class="problem-solution">
+                        <h2>Problem 1: PVC (PersistentVolumeClaim) Stuck in Pending</h2>
+                        <p>When I deployed my application, everything seemed fine — but the Pod stayed stuck in Pending state.</p>
+                        
+                        <p>Running:</p>
+                        <pre>kubectl get pvc</pre>
+                        
+                        <p>I saw:</p>
+                        <pre>NAME        STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+my-pvc      Pending</pre>
+                        
+                        <h3>💡 What I figured out:</h3>
+                        <p>Kubernetes couldn't bind my PVC to a PV because I hadn't defined a StorageClass. Also, I mistakenly requested ReadWriteMany mode, which wasn't supported on my cluster.</p>
+                        
+                        <h3>✅ Fix:</h3>
+                        <p>Installed a default StorageClass (in my case, I used hostPath for practice). Corrected the accessModes to ReadWriteOnce.</p>
+                        
+                        <p>Updated PVC:</p>
+                        <pre>apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard</pre>
+                        
+                        <p>After applying this, my Pod got scheduled successfully.</p>
+                    </div>
+
+                    <div class="problem-solution">
+                        <h2>Problem 2: Ingress Not Routing Traffic</h2>
+                        <p>Next, I set up an Ingress for external access. But when I tried the URL in my browser, I got nothing.</p>
+                        
+                        <p>Checked Ingress:</p>
+                        <pre>kubectl get ingress</pre>
+                        
+                        <p>It showed correctly, but still no response.</p>
+                        
+                        <h3>💡 What I figured out:</h3>
+                        <p>I hadn't installed an Ingress Controller. Kubernetes by default only provides the Ingress API object, not the controller. DNS wasn't resolving because I was testing locally without /etc/hosts configured.</p>
+                        
+                        <h3>✅ Fix:</h3>
+                        <p>Installed NGINX Ingress Controller:</p>
+                        <pre>kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml</pre>
+                        
+                        <p>Added an entry in /etc/hosts:</p>
+                        <pre>127.0.0.1 myapp.local</pre>
+                        
+                        <p>Updated my Ingress to use that host.</p>
+                        
+                        <p>After this, my app was accessible via http://myapp.local. 🎉</p>
+                    </div>
+
+                    <h2>Lessons Learned</h2>
+                    <ul>
+                        <li>PVC Pending usually means a mismatch between PVC request and available StorageClass.</li>
+                        <li>Ingress won't work without a controller – it's just an API object until you install one.</li>
+                        <li>Always check logs with:
+                            <pre>kubectl describe pod &lt;pod-name&gt;
+kubectl describe ingress &lt;ingress-name&gt;</pre>
+                        </li>
+                    </ul>
+
+                    <p>This was a great learning moment for me in Kubernetes. Debugging PVC and Ingress issues gave me more confidence in handling real cluster problems.</p>
+                </div>
+
+                <a href="../blog.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to All Posts</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Shantanu Kokate | Built with ❤️ | Hosted on GitHub Pages</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>
