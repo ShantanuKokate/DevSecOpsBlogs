@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provisioned AWS Infra with Terraform - Shantanu Kokate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">SK</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../blog.html" class="nav-link active">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../projects.html" class="nav-link">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../contact.html" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <article class="blog-post">
+            <div class="container">
+                <div class="post-header">
+                    <div class="post-meta">
+                        <span class="post-date">September 3, 2025</span>
+                        <div class="post-tags">
+                            <span class="tag">Terraform</span>
+                            <span class="tag">AWS</span>
+                            <span class="tag">ECS</span>
+                            <span class="tag">RDS</span>
+                        </div>
+                    </div>
+                    <h1>Provisioned AWS Infra with Terraform</h1>
+                    <p class="post-excerpt">Created ECS + RDS with modular IaC code for scalable application deployment.</p>
+                </div>
+
+                <div class="post-content">
+                    <h2>Infrastructure Requirements</h2>
+                    <p>
+                        Today I built a complete AWS infrastructure setup using Terraform for a web application 
+                        that needs container orchestration (ECS) and a managed database (RDS). The goal was to 
+                        create a modular, reusable infrastructure that follows best practices.
+                    </p>
+
+                    <h2>Architecture Overview</h2>
+                    <ul>
+                        <li><strong>VPC</strong> - Custom VPC with public and private subnets</li>
+                        <li><strong>ECS Cluster</strong> - Fargate-based container orchestration</li>
+                        <li><strong>RDS</strong> - PostgreSQL database in private subnets</li>
+                        <li><strong>ALB</strong> - Application Load Balancer for traffic distribution</li>
+                        <li><strong>Security Groups</strong> - Proper network isolation</li>
+                    </ul>
+
+                    <h2>Terraform Module Structure</h2>
+                    <p>Organized the code into reusable modules:</p>
+                    <pre><code class="language-bash">terraform/
+├── main.tf
+├── variables.tf
+├── outputs.tf
+├── modules/
+│   ├── vpc/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── ecs/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   └── rds/
+│       ├── main.tf
+│       ├── variables.tf
+│       └── outputs.tf</code></pre>
+
+                    <h2>VPC Module</h2>
+                    <p>Created a robust networking foundation:</p>
+                    <pre><code class="language-hcl"># modules/vpc/main.tf
+resource "aws_vpc" "main" {
+  cidr_block           = var.vpc_cidr
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+
+  tags = {
+    Name = "${var.project_name}-vpc"
+  }
+}
+
+resource "aws_subnet" "public" {
+  count = length(var.availability_zones)
+
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.public_subnet_cidrs[count.index]
+  availability_zone       = var.availability_zones[count.index]
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "${var.project_name}-public-${count.index + 1}"
+  }
+}
+
+resource "aws_subnet" "private" {
+  count = length(var.availability_zones)
+
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_subnet_cidrs[count.index]
+  availability_zone = var.availability_zones[count.index]
+
+  tags = {
+    Name = "${var.project_name}-private-${count.index + 1}"
+  }
+}
+
+resource "aws_internet_gateway" "main" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "${var.project_name}-igw"
+  }
+}
+
+resource "aws_nat_gateway" "main" {
+  count = length(aws_subnet.public)
+
+  allocation_id = aws_eip.nat[count.index].id
+  subnet_id     = aws_subnet.public[count.index].id
+
+  tags = {
+    Name = "${var.project_name}-nat-${count.index + 1}"
+  }
+}</code></pre>
+
+                    <h2>ECS Module</h2>
+                    <p>Set up container orchestration with Fargate:</p>
+                    <pre><code class="language-hcl"># modules/ecs/main.tf
+resource "aws_ecs_cluster" "main" {
+  name = var.cluster_name
+
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
+
+  tags = {
+    Name = var.cluster_name
+  }
+}
+
+resource "aws_ecs_task_definition" "app" {
+  family                   = var.task_family
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = var.task_cpu
+  memory                   = var.task_memory
+  execution_role_arn       = aws_iam_role.ecs_execution_role.arn
+  task_role_arn           = aws_iam_role.ecs_task_role.arn
+
+  container_definitions = jsonencode([
+    {
+      name  = var.container_name
+      image = var.container_image
+      portMappings = [
+        {
+          containerPort = var.container_port
+          protocol      = "tcp"
+        }
+      ]
+      environment = var.environment_variables
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = aws_cloudwatch_log_group.app.name
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+    }
+  ])
+}
+
+resource "aws_ecs_service" "app" {
+  name            = var.service_name
+  cluster         = aws_ecs_cluster.main.id
+  task_definition = aws_ecs_task_definition.app.arn
+  desired_count   = var.desired_count
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    security_groups  = [aws_security_group.ecs_tasks.id]
+    subnets          = var.private_subnet_ids
+    assign_public_ip = false
+  }
+
+  load_balancer {
+    target_group_arn = var.target_group_arn
+    container_name   = var.container_name
+    container_port   = var.container_port
+  }
+
+  depends_on = [var.alb_listener]
+}</code></pre>
+
+                    <h2>RDS Module</h2>
+                    <p>Configured managed PostgreSQL database:</p>
+                    <pre><code class="language-hcl"># modules/rds/main.tf
+resource "aws_db_subnet_group" "main" {
+  name       = "${var.project_name}-db-subnet-group"
+  subnet_ids = var.private_subnet_ids
+
+  tags = {
+    Name = "${var.project_name}-db-subnet-group"
+  }
+}
+
+resource "aws_db_instance" "main" {
+  identifier = var.db_identifier
+
+  engine         = "postgres"
+  engine_version = var.db_engine_version
+  instance_class = var.db_instance_class
+
+  allocated_storage     = var.db_allocated_storage
+  max_allocated_storage = var.db_max_allocated_storage
+  storage_type          = "gp2"
+  storage_encrypted     = true
+
+  db_name  = var.db_name
+  username = var.db_username
+  password = var.db_password
+
+  vpc_security_group_ids = [aws_security_group.rds.id]
+  db_subnet_group_name   = aws_db_subnet_group.main.name
+
+  backup_retention_period = var.backup_retention_period
+  backup_window          = var.backup_window
+  maintenance_window     = var.maintenance_window
+
+  skip_final_snapshot = var.skip_final_snapshot
+  deletion_protection = var.deletion_protection
+
+  tags = {
+    Name = "${var.project_name}-database"
+  }
+}</code></pre>
+
+                    <h2>Main Configuration</h2>
+                    <p>Tied everything together in the root module:</p>
+                    <pre><code class="language-hcl"># main.tf
+module "vpc" {
+  source = "./modules/vpc"
+
+  project_name           = var.project_name
+  vpc_cidr              = "10.0.0.0/16"
+  availability_zones    = ["us-east-1a", "us-east-1b"]
+  public_subnet_cidrs   = ["10.0.1.0/24", "10.0.2.0/24"]
+  private_subnet_cidrs  = ["10.0.10.0/24", "10.0.20.0/24"]
+}
+
+module "rds" {
+  source = "./modules/rds"
+
+  project_name        = var.project_name
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  
+  db_name     = var.db_name
+  db_username = var.db_username
+  db_password = var.db_password
+}
+
+module "ecs" {
+  source = "./modules/ecs"
+
+  cluster_name        = "${var.project_name}-cluster"
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  public_subnet_ids  = module.vpc.public_subnet_ids
+  
+  container_image = var.container_image
+  environment_variables = [
+    {
+      name  = "DATABASE_URL"
+      value = "postgresql://${var.db_username}:${var.db_password}@${module.rds.db_endpoint}:5432/${var.db_name}"
+    }
+  ]
+}</code></pre>
+
+                    <h2>Deployment</h2>
+                    <p>Executed the Terraform deployment:</p>
+                    <pre><code class="language-bash"># Initialize Terraform
+terraform init
+
+# Plan the deployment
+terraform plan -var-file="terraform.tfvars"
+
+# Apply the infrastructure
+terraform apply -var-file="terraform.tfvars"
+
+# Verify resources
+aws ecs list-clusters
+aws rds describe-db-instances</code></pre>
+
+                    <h2>Results</h2>
+                    <ul>
+                        <li>✅ Modular, reusable Terraform code</li>
+                        <li>✅ Secure network architecture with proper isolation</li>
+                        <li>✅ Scalable ECS setup with Fargate</li>
+                        <li>✅ Managed RDS with automated backups</li>
+                        <li>✅ Infrastructure as Code best practices</li>
+                    </ul>
+
+                    <div class="post-navigation">
+                        <a href="day2.html" class="btn btn-outline">← Previous Post</a>
+                        <a href="../blog.html" class="btn btn-primary">Back to Blog</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Shantanu Kokate | Built with ❤️ | Hosted on GitHub Pages</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

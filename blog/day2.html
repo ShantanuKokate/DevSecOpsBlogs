@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated CI/CD with GitHub Actions - Shantanu Kokate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">SK</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../blog.html" class="nav-link active">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../projects.html" class="nav-link">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../contact.html" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <article class="blog-post">
+            <div class="container">
+                <div class="post-header">
+                    <div class="post-meta">
+                        <span class="post-date">September 2, 2025</span>
+                        <div class="post-tags">
+                            <span class="tag">GitHub Actions</span>
+                            <span class="tag">Docker</span>
+                            <span class="tag">AWS ECR</span>
+                            <span class="tag">CI/CD</span>
+                        </div>
+                    </div>
+                    <h1>Automated CI/CD with GitHub Actions</h1>
+                    <p class="post-excerpt">Built pipeline to push Docker images to AWS ECR and deploy to ECS automatically.</p>
+                </div>
+
+                <div class="post-content">
+                    <h2>Objective</h2>
+                    <p>
+                        Set up a complete CI/CD pipeline that automatically builds Docker images, pushes them to 
+                        AWS ECR, and deploys to ECS whenever code is pushed to the main branch.
+                    </p>
+
+                    <h2>Pipeline Architecture</h2>
+                    <p>The workflow consists of three main stages:</p>
+                    <ol>
+                        <li><strong>Build</strong> - Create and test Docker image</li>
+                        <li><strong>Push</strong> - Upload image to AWS ECR</li>
+                        <li><strong>Deploy</strong> - Update ECS service with new image</li>
+                    </ol>
+
+                    <h2>GitHub Actions Workflow</h2>
+                    <p>Created <code>.github/workflows/deploy.yml</code>:</p>
+                    <pre><code class="language-yaml">name: Deploy to AWS ECS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: my-app
+  ECS_SERVICE: my-app-service
+  ECS_CLUSTER: my-cluster
+  ECS_TASK_DEFINITION: my-app-task
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        container-name: my-app
+        image: ${{ steps.build-image.outputs.image }}
+
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true</code></pre>
+
+                    <h2>ECS Task Definition</h2>
+                    <p>Created <code>task-definition.json</code> for ECS:</p>
+                    <pre><code class="language-json">{
+  "family": "my-app-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::ACCOUNT:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "my-app",
+      "image": "ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/my-app:latest",
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/my-app",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}</code></pre>
+
+                    <h2>Security Configuration</h2>
+                    <p>Added the following secrets to GitHub repository:</p>
+                    <ul>
+                        <li><code>AWS_ACCESS_KEY_ID</code></li>
+                        <li><code>AWS_SECRET_ACCESS_KEY</code></li>
+                    </ul>
+
+                    <h2>Testing the Pipeline</h2>
+                    <p>Verified the deployment by:</p>
+                    <pre><code class="language-bash"># Check ECS service status
+aws ecs describe-services --cluster my-cluster --services my-app-service
+
+# View recent deployments
+aws ecs list-tasks --cluster my-cluster --service-name my-app-service
+
+# Check application logs
+aws logs tail /ecs/my-app --follow</code></pre>
+
+                    <h2>Results</h2>
+                    <ul>
+                        <li>✅ Automated builds on every push to main</li>
+                        <li>✅ Zero-downtime deployments to ECS</li>
+                        <li>✅ Proper image versioning with Git SHA</li>
+                        <li>✅ Rollback capability through ECS</li>
+                    </ul>
+
+                    <div class="post-navigation">
+                        <a href="day1.html" class="btn btn-outline">← Previous Post</a>
+                        <a href="day3.html" class="btn btn-primary">Next Post →</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Shantanu Kokate | Built with ❤️ | Hosted on GitHub Pages</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

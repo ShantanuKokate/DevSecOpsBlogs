@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Kubernetes Ingress Issue - Shantanu Kokate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">SK</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../blog.html" class="nav-link active">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../projects.html" class="nav-link">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../contact.html" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <article class="blog-post">
+            <div class="container">
+                <div class="post-header">
+                    <div class="post-meta">
+                        <span class="post-date">September 1, 2025</span>
+                        <div class="post-tags">
+                            <span class="tag">Kubernetes</span>
+                            <span class="tag">NGINX</span>
+                            <span class="tag">Ingress</span>
+                            <span class="tag">Troubleshooting</span>
+                        </div>
+                    </div>
+                    <h1>Fixed Kubernetes Ingress Issue</h1>
+                    <p class="post-excerpt">Solved NGINX routing issue by fixing service annotations and backend configuration.</p>
+                </div>
+
+                <div class="post-content">
+                    <h2>Problem Description</h2>
+                    <p>
+                        Today I encountered a frustrating issue where our Kubernetes Ingress controller was returning 
+                        502 Bad Gateway errors for specific routes. The application pods were running fine, but traffic 
+                        wasn't reaching them properly through the NGINX Ingress.
+                    </p>
+
+                    <h2>Investigation Process</h2>
+                    <p>I started by checking the basic components:</p>
+                    <ul>
+                        <li>Pod status and logs - all healthy</li>
+                        <li>Service endpoints - correctly pointing to pods</li>
+                        <li>Ingress controller logs - showing upstream connection errors</li>
+                    </ul>
+
+                    <h2>Root Cause</h2>
+                    <p>
+                        The issue was in the service annotations. The backend service was missing the correct 
+                        <code>nginx.ingress.kubernetes.io/backend-protocol</code> annotation, causing the ingress 
+                        controller to use the wrong protocol when connecting to the backend.
+                    </p>
+
+                    <h2>Solution</h2>
+                    <p>Updated the service configuration:</p>
+                    <pre><code class="language-yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:
+  selector:
+    app: my-app
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: ClusterIP</code></pre>
+
+                    <p>And verified the Ingress configuration:</p>
+                    <pre><code class="language-yaml">apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-app-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-app-service
+            port:
+              number: 80</code></pre>
+
+                    <h2>Verification</h2>
+                    <p>After applying the changes:</p>
+                    <pre><code class="language-bash">kubectl apply -f service.yaml
+kubectl apply -f ingress.yaml
+
+# Check ingress status
+kubectl get ingress my-app-ingress
+kubectl describe ingress my-app-ingress
+
+# Test the endpoint
+curl -H "Host: myapp.example.com" http://INGRESS_IP/</code></pre>
+
+                    <h2>Lessons Learned</h2>
+                    <ul>
+                        <li>Always check service annotations when troubleshooting ingress issues</li>
+                        <li>The <code>backend-protocol</code> annotation is crucial for proper routing</li>
+                        <li>Ingress controller logs provide valuable debugging information</li>
+                        <li>Test changes incrementally to isolate issues</li>
+                    </ul>
+
+                    <div class="post-navigation">
+                        <a href="../blog.html" class="btn btn-outline">← Back to Blog</a>
+                        <a href="day2.html" class="btn btn-primary">Next Post →</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Shantanu Kokate | Built with ❤️ | Hosted on GitHub Pages</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>
