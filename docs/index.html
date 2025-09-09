@@ -6,7 +6,7 @@
     <title>Shantanu Kokate – DevOps Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -43,25 +43,27 @@
 
     <main>
         <section class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Shantanu Kokate</h1>
-                <p class="hero-tagline">DevOps Engineer | Cloud | Kubernetes | Docker | Terraform | Automation</p>
-                <p class="hero-description">
-                    Welcome to my portfolio! I'm passionate about building scalable infrastructure, 
-                    automating deployments, and solving complex DevOps challenges in cloud environments.
-                </p>
-                <div class="hero-buttons">
-                    <a href="blog.html" class="btn btn-primary">View Blog</a>
-                    <a href="assets/Shantanu-Kokate-Resume.pdf" class="btn btn-secondary" target="_blank">Download Resume</a>
-                    <a href="contact.html" class="btn btn-outline">Hire Me</a>
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Shantanu Kokate</h1>
+                    <p class="hero-tagline">DevOps Engineer | Cloud | Kubernetes | Docker | Terraform | Automation</p>
+                    <p class="hero-description">
+                        Welcome to my portfolio! I'm passionate about building scalable infrastructure, 
+                        automating deployments, and solving complex DevOps challenges in cloud environments.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="projects.html" class="btn btn-primary">View Projects</a>
+                        <a href="blog.html" class="btn btn-secondary">Read Blog</a>
+                        <a href="contact.html" class="btn btn-outline">Hire Me</a>
+                    </div>
                 </div>
-            </div>
-            <div class="hero-visual">
-                <div class="tech-grid">
-                    <div class="tech-item"><i class="fab fa-docker"></i></div>
-                    <div class="tech-item"><i class="fas fa-cloud"></i></div>
-                    <div class="tech-item"><i class="fas fa-server"></i></div>
-                    <div class="tech-item"><i class="fas fa-cogs"></i></div>
+                <div class="hero-visual">
+                    <div class="tech-grid">
+                        <div class="tech-item"><i class="fab fa-docker"></i></div>
+                        <div class="tech-item"><i class="fab fa-aws"></i></div>
+                        <div class="tech-item"><i class="fab fa-kubernetes"></i></div>
+                        <div class="tech-item"><i class="fas fa-code"></i></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -70,20 +72,20 @@
             <div class="container">
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <h3>6+</h3>
-                        <p>Daily Tasks Completed</p>
+                        <h3>50+</h3>
+                        <p><i class="fas fa-tasks"></i> Daily Tasks Completed</p>
                     </div>
                     <div class="stat-item">
-                        <h3>2+</h3>
-                        <p>Cloud Projects</p>
+                        <h3>10+</h3>
+                        <p><i class="fas fa-cloud"></i> Cloud Projects</p>
                     </div>
                     <div class="stat-item">
-                        <h3>2+</h3>
-                        <p>Years Experience</p>
+                        <h3>5+</h3>
+                        <p><i class="fas fa-calendar-alt"></i> Years Experience</p>
                     </div>
                     <div class="stat-item">
                         <h3>24/7</h3>
-                        <p>System Monitoring</p>
+                        <p><i class="fas fa-server"></i> System Monitoring</p>
                     </div>
                 </div>
             </div>
@@ -92,10 +94,35 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Shantanu Kokate | Built with ❤️ | Hosted on GitHub Pages</p>
+            <div class="footer-content">
+                <p>&copy; 2025 Shantanu Kokate | Built with ❤️ | Hosted on GitHub Pages</p>
+                <div class="social-links">
+                    <a href="https://github.com/ShantanuKokate" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/shantanu-kokate-44635023b/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:shantanukokate3@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script src="assets/js/script.js"></script>
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>

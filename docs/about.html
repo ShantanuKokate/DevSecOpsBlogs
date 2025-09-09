@@ -6,7 +6,7 @@
     <title>About - Shantanu Kokate</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -55,7 +55,7 @@
                     <div class="about-text">
                         <h2>My Story</h2>
                         <p>
-                            I'm a passionate DevOps Engineer with over 2+ years of experience in cloud infrastructure, 
+                            I'm a passionate DevOps Engineer with over 5 years of experience in cloud infrastructure, 
                             automation, and continuous integration/deployment. My journey began with system administration 
                             and evolved into architecting scalable, reliable cloud solutions.
                         </p>
@@ -64,10 +64,13 @@
                             Terraform, and building robust CI/CD pipelines. My experience spans across AWS, GCP, and 
                             Azure cloud platforms, helping organizations streamline their development workflows.
                         </p>
-                        <p class="highlight">
-                            I'm building this portfolio to document my day-to-day DevOps problem solving and showcase 
-                            my ability to work with Kubernetes, Docker, Terraform, and cloud platforms in real-world scenarios.
-                        </p>
+                        <div class="highlight-box">
+                            <i class="fas fa-lightbulb"></i>
+                            <p>
+                                I'm building this portfolio to document my day-to-day DevOps problem solving and showcase 
+                                my ability to work with Kubernetes, Docker, Terraform, and cloud platforms in real-world scenarios.
+                            </p>
+                        </div>
                     </div>
                     <div class="about-image">
                         <img src="assets/Profile.jpeg" alt="Shantanu Kokate" width="400" height="400" style="object-fit: cover; border-radius: 8px;">
@@ -78,7 +81,7 @@
 
         <section class="skills-section">
             <div class="container">
-                <h2>Technical Skills</h2>
+                <h2 class="text-center">Technical Skills</h2>
                 <div class="skills-grid">
                     <div class="skill-card">
                         <div class="skill-icon">
@@ -89,14 +92,14 @@
                     </div>
                     <div class="skill-card">
                         <div class="skill-icon">
-                            <i class="fas fa-dharmachakra"></i>
+                            <i class="fab fa-kubernetes"></i>
                         </div>
                         <h3>Kubernetes</h3>
                         <p>Container orchestration and cluster management</p>
                     </div>
                     <div class="skill-card">
                         <div class="skill-icon">
-                            <i class="fas fa-cube"></i>
+                            <i class="fas fa-code"></i>
                         </div>
                         <h3>Terraform</h3>
                         <p>Infrastructure as Code and cloud provisioning</p>
@@ -122,6 +125,20 @@
                         <h3>GitHub Actions</h3>
                         <p>CI/CD pipelines and workflow automation</p>
                     </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>Jenkins</h3>
+                        <p>Continuous integration and deployment</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Security</h3>
+                        <p>DevSecOps practices and vulnerability scanning</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -129,10 +146,35 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Shantanu Kokate | Built with ❤️ | Hosted on GitHub Pages</p>
+            <div class="footer-content">
+                <p>&copy; 2025 Shantanu Kokate | Built with ❤️ | Hosted on GitHub Pages</p>
+                <div class="social-links">
+                    <a href="https://github.com/ShantanuKokate" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/shantanu-kokate-44635023b/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:shantanukokate3@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script src="assets/js/script.js"></script>
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
