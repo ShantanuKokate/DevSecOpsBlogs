@@ -6,7 +6,7 @@
     <title>Contact - Shantanu Kokate</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="contact-details">
                                     <h3>Email</h3>
-                                    <a href="mailto:shantanukokate3@gmail.com">shantanukokate3@gmail.com</a>
+                                    <a href="mailto:shantanukokate3@gmail.com" class="contact-link">shantanukokate3@gmail.com</a>
                                 </div>
                             </div>
 
@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="contact-details">
                                     <h3>LinkedIn</h3>
-                                    <a href="https://www.linkedin.com/in/shantanu-kokate-44635023b/" target="_blank">Connect with me</a>
+                                    <a href="https://www.linkedin.com/in/shantanu-kokate-44635023b/" target="_blank" class="contact-link">Connect with me</a>
                                 </div>
                             </div>
 
@@ -87,13 +87,23 @@
                                 </div>
                                 <div class="contact-details">
                                     <h3>GitHub</h3>
-                                    <a href="https://github.com/ShantanuKokate" target="_blank">View my repositories</a>
+                                    <a href="https://github.com/ShantanuKokate" target="_blank" class="contact-link">View my repositories</a>
+                                </div>
+                            </div>
+
+                            <div class="contact-method">
+                                <div class="contact-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>Location</h3>
+                                    <span class="contact-link">Pune, India</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="availability">
-                            <h3>Availability</h3>
+                            <h3><i class="fas fa-clock"></i> Availability</h3>
                             <p>
                                 Currently available for freelance projects and full-time opportunities. 
                                 I typically respond to inquiries within 24 hours.
@@ -107,17 +117,17 @@
                             
                             <div class="form-group">
                                 <label for="name">Name *</label>
-                                <input type="text" id="name" name="name" required>
+                                <input type="text" id="name" name="name" required placeholder="Your full name">
                             </div>
 
                             <div class="form-group">
                                 <label for="email">Email *</label>
-                                <input type="email" id="email" name="email" required>
+                                <input type="email" id="email" name="email" required placeholder="your.email@example.com">
                             </div>
 
                             <div class="form-group">
                                 <label for="company">Company</label>
-                                <input type="text" id="company" name="company">
+                                <input type="text" id="company" name="company" placeholder="Your company name">
                             </div>
 
                             <div class="form-group">
@@ -166,10 +176,62 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Shantanu Kokate | Built with ❤️ | Hosted on GitHub Pages</p>
+            <div class="footer-content">
+                <p>&copy; 2025 Shantanu Kokate | Built with ❤️ | Hosted on GitHub Pages</p>
+                <div class="social-links">
+                    <a href="https://github.com/ShantanuKokate" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/shantanu-kokate-44635023b/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:shantanukokate3@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script src="assets/js/script.js"></script>
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Form submission handling
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple form validation
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            if (name && email && message) {
+                // Show success message (in a real application, you'd send this to a server)
+                alert('Thank you for your message! I\'ll get back to you within 24 hours.');
+                contactForm.reset();
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        });
+
+        // Make sure all contact links are clickable
+        document.querySelectorAll('.contact-link').forEach(link => {
+            link.style.pointerEvents = 'auto';
+            link.style.cursor = 'pointer';
+            link.style.position = 'relative';
+            link.style.zIndex = '10';
+        });
+    </script>
 </body>
 </html>
