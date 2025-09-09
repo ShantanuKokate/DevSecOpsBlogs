@@ -6,7 +6,7 @@
     <title>Daily Tasks - Shantanu Kokate</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -52,11 +52,13 @@
         <section class="blog-content">
             <div class="container">
                 <div class="blog-grid">
-                    <!-- NEW BLOG ARTICLE ADDED HERE -->
+                    <!-- KUBERNETES TROUBLESHOOTING ARTICLE -->
                     <article class="blog-card">
-                        <div class="blog-date">2025-09-08</div>
+                        <div class="blog-date">
+                            <i class="fas fa-calendar-alt"></i> 2025-09-05
+                        </div>
                         <h2><a href="blog/kubernetes-troubleshooting.html">Kubernetes Troubleshooting: Solving PVC Pending & Ingress Issues</a></h2>
-                        <p>Debugged and resolved PersistentVolumeClaim stuck in Pending state and Ingress controller routing problems in my Kubernetes cluster.</p>
+                        <p>Debugged and resolved PersistentVolumeClaim stuck in Pending state and Ingress controller routing problems in my Kubernetes cluster with detailed root cause analysis and solutions.</p>
                         <div class="blog-tags">
                             <span class="tag">Kubernetes</span>
                             <span class="tag">Troubleshooting</span>
@@ -64,46 +66,104 @@
                             <span class="tag">Ingress</span>
                             <span class="tag">StorageClass</span>
                         </div>
-                        <a href="blog/kubernetes-troubleshooting.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="blog/kubernetes-troubleshooting.html" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
                     </article>
 
+                    <!-- TERRAFORM AWS INFRA ARTICLE -->
                     <article class="blog-card">
-                        <div class="blog-date">2025-09-03</div>
+                        <div class="blog-date">
+                            <i class="fas fa-calendar-alt"></i> 2025-09-03
+                        </div>
                         <h2><a href="blog/day3.html">Provisioned AWS Infra with Terraform</a></h2>
-                        <p>Created ECS + RDS with modular IaC code for scalable application deployment.</p>
+                        <p>Created ECS + RDS with modular IaC code for scalable application deployment using Terraform modules, remote state management, and automated validation.</p>
                         <div class="blog-tags">
                             <span class="tag">Terraform</span>
                             <span class="tag">AWS</span>
                             <span class="tag">ECS</span>
                             <span class="tag">RDS</span>
+                            <span class="tag">IaC</span>
                         </div>
-                        <a href="blog/day3.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="blog/day3.html" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
                     </article>
 
+                    <!-- GITHUB ACTIONS CI/CD ARTICLE -->
                     <article class="blog-card">
-                        <div class="blog-date">2025-09-02</div>
+                        <div class="blog-date">
+                            <i class="fas fa-calendar-alt"></i> 2025-09-02
+                        </div>
                         <h2><a href="blog/day2.html">Automated CI/CD with GitHub Actions</a></h2>
-                        <p>Built pipeline to push Docker images to AWS ECR and deploy to ECS automatically.</p>
+                        <p>Built pipeline to push Docker images to AWS ECR and deploy to ECS automatically with security scanning, testing stages, and environment-based deployments.</p>
                         <div class="blog-tags">
                             <span class="tag">GitHub Actions</span>
                             <span class="tag">Docker</span>
                             <span class="tag">AWS ECR</span>
                             <span class="tag">CI/CD</span>
+                            <span class="tag">Automation</span>
                         </div>
-                        <a href="blog/day2.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="blog/day2.html" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
                     </article>
 
+                    <!-- KUBERNETES INGRESS ARTICLE -->
                     <article class="blog-card">
-                        <div class="blog-date">2025-09-01</div>
+                        <div class="blog-date">
+                            <i class="fas fa-calendar-alt"></i> 2025-09-01
+                        </div>
                         <h2><a href="blog/day1.html">Fixed Kubernetes Ingress Issue</a></h2>
-                        <p>Solved NGINX routing issue by fixing service annotations and backend configuration.</p>
+                        <p>Solved NGINX routing issue by fixing service annotations and backend configuration with detailed debugging steps and performance optimization.</p>
                         <div class="blog-tags">
                             <span class="tag">Kubernetes</span>
                             <span class="tag">NGINX</span>
                             <span class="tag">Ingress</span>
                             <span class="tag">Troubleshooting</span>
+                            <span class="tag">Networking</span>
                         </div>
-                        <a href="blog/day1.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="blog/day1.html" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+                    <!-- DEVSECOPS IMPLEMENTATION ARTICLE -->
+                    <article class="blog-card">
+                        <div class="blog-date">
+                            <i class="fas fa-calendar-alt"></i> 2025-08-30
+                        </div>
+                        <h2><a href="blog/devsecops-implementation.html">DevSecOps Pipeline Implementation</a></h2>
+                        <p>Implemented security scanning in CI/CD pipeline with SonarQube, Trivy, and OWASP ZAP for vulnerability detection and compliance automation.</p>
+                        <div class="blog-tags">
+                            <span class="tag">DevSecOps</span>
+                            <span class="tag">Security</span>
+                            <span class="tag">SonarQube</span>
+                            <span class="tag">Trivy</span>
+                            <span class="tag">OWASP</span>
+                        </div>
+                        <a href="blog/devsecops-implementation.html" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+                    <!-- ARGOCD GITOPS ARTICLE -->
+                    <article class="blog-card">
+                        <div class="blog-date">
+                            <i class="fas fa-calendar-alt"></i> 2025-08-28
+                        </div>
+                        <h2><a href="blog/argocd-gitops.html">GitOps with ArgoCD Implementation</a></h2>
+                        <p>Set up ArgoCD for GitOps workflows with automated sync, self-healing capabilities, and multi-environment management on Kubernetes clusters.</p>
+                        <div class="blog-tags">
+                            <span class="tag">ArgoCD</span>
+                            <span class="tag">GitOps</span>
+                            <span class="tag">Kubernetes</span>
+                            <span class="tag">Automation</span>
+                            <span class="tag">Deployment</span>
+                        </div>
+                        <a href="blog/argocd-gitops.html" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
                     </article>
                 </div>
             </div>
@@ -112,10 +172,35 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Shantanu Kokate | Built with ❤️ | Hosted on GitHub Pages</p>
+            <div class="footer-content">
+                <p>&copy; 2025 Shantanu Kokate | Built with ❤️ | Hosted on GitHub Pages</p>
+                <div class="social-links">
+                    <a href="https://github.com/ShantanuKokate" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/shantanu-kokate-44635023b/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:shantanukokate3@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script src="assets/js/script.js"></script>
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
