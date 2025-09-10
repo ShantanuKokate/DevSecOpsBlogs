@@ -44,15 +44,15 @@
     <main>
         <section class="page-header">
             <div class="container">
-                <h1>Contact Me</h1>
-                <p>Let's discuss your DevOps and cloud infrastructure needs</p>
+                <h1 class="fade-in-up">Contact Me</h1>
+                <p class="fade-in-up">Let's discuss your DevOps and cloud infrastructure needs</p>
             </div>
         </section>
 
         <section class="contact-content">
             <div class="container">
                 <div class="contact-grid">
-                    <div class="contact-info">
+                    <div class="contact-info fade-in-up">
                         <h2>Get In Touch</h2>
                         <p>
                             I'm always interested in discussing new opportunities, challenging projects, 
@@ -102,7 +102,7 @@
                             </div>
                         </div>
 
-                        <div class="availability">
+                        <div class="availability fade-in-up">
                             <h3><i class="fas fa-clock"></i> Availability</h3>
                             <p>
                                 Currently available for freelance projects and full-time opportunities. 
@@ -111,7 +111,7 @@
                         </div>
                     </div>
 
-                    <div class="contact-form-container">
+                    <div class="contact-form-container fade-in-up">
                         <form class="contact-form" id="contactForm">
                             <h2>Send a Message</h2>
                             
@@ -159,13 +159,13 @@
         <section class="cta-section">
             <div class="container">
                 <div class="cta-content">
-                    <h2>Ready to Optimize Your Infrastructure?</h2>
-                    <p>Let's work together to build scalable, reliable, and secure cloud solutions.</p>
+                    <h2 class="fade-in-up">Ready to Optimize Your Infrastructure?</h2>
+                    <p class="fade-in-up">Let's work together to build scalable, reliable, and secure cloud solutions.</p>
                     <div class="cta-buttons">
-                        <a href="assets/Shantanu-Kokate-Resume.pdf" class="btn btn-secondary" target="_blank">
+                        <a href="assets/Shantanu-Kokate-Resume.pdf" class="btn btn-secondary fade-in-up" target="_blank">
                             <i class="fas fa-download"></i> Download Resume
                         </a>
-                        <a href="projects.html" class="btn btn-outline">
+                        <a href="projects.html" class="btn btn-outline fade-in-up">
                             <i class="fas fa-folder-open"></i> View Projects
                         </a>
                     </div>
@@ -187,7 +187,6 @@
         </div>
     </footer>
 
-    <script src="assets/js/script.js"></script>
     <script>
         // Mobile menu toggle
         const hamburger = document.querySelector('.hamburger');
@@ -204,6 +203,29 @@
                 hamburger.classList.remove('active');
                 navMenu.classList.remove('active');
             });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with fade-in-up class
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(el);
         });
 
         // Form submission handling

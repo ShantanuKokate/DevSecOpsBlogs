@@ -45,28 +45,38 @@
         <!-- Hero Section -->
         <section class="hero">
             <div class="container">
-                <div class="hero-content fade-in-up">
-                    <h1 class="hero-title">Shantanu Kokate</h1>
-                    <p class="hero-tagline">DevOps Engineer | Cloud Architect | Kubernetes Specialist</p>
-                    <p class="hero-description">
-                        I build scalable cloud infrastructure, automate deployment pipelines, and solve complex DevOps challenges. 
-                        Passionate about creating efficient, secure, and reliable systems that drive business success.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="projects.html" class="btn btn-primary">
-                            <i class="fas fa-folder-open"></i> View Projects
-                        </a>
-                        <a href="contact.html" class="btn btn-secondary">
-                            <i class="fas fa-paper-plane"></i> Contact Me
-                        </a>
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title fade-in-up">Shantanu Kokate</h1>
+                        <p class="hero-tagline fade-in-up">DevOps Engineer | Cloud Architect | Kubernetes Specialist</p>
+                        <p class="hero-description fade-in-up">
+                            I build scalable cloud infrastructure, automate deployment pipelines, and solve complex DevOps challenges. 
+                            Passionate about creating efficient, secure, and reliable systems that drive business success.
+                        </p>
+                        <div class="hero-buttons">
+                            <a href="projects.html" class="btn btn-primary fade-in-up">
+                                <i class="fas fa-folder-open"></i> View Projects
+                            </a>
+                            <a href="contact.html" class="btn btn-secondary fade-in-up">
+                                <i class="fas fa-paper-plane"></i> Contact Me
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="hero-visual fade-in-up">
-                    <div class="tech-grid">
-                        <div class="tech-item"><i class="fab fa-aws"></i></div>
-                        <div class="tech-item"><i class="fab fa-kubernetes"></i></div>
-                        <div class="tech-item"><i class="fab fa-docker"></i></div>
-                        <div class="tech-item"><i class="fas fa-code"></i></div>
+                    <div class="hero-visual">
+                        <div class="floating-tech-icons">
+                            <div class="tech-icon fade-in-up" style="animation-delay: 0s;">
+                                <i class="fab fa-aws"></i>
+                            </div>
+                            <div class="tech-icon fade-in-up" style="animation-delay: 0.2s;">
+                                <i class="fab fa-kubernetes"></i>
+                            </div>
+                            <div class="tech-icon fade-in-up" style="animation-delay: 0.4s;">
+                                <i class="fab fa-docker"></i>
+                            </div>
+                            <div class="tech-icon fade-in-up" style="animation-delay: 0.6s;">
+                                <i class="fas fa-code"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,40 +87,92 @@
             <div class="container">
                 <div class="stats-grid">
                     <div class="stat-item fade-in-up">
-                        <h3>10+</h3>
-                        <p><i class="fas fa-cloud"></i> Cloud Projects</p>
+                        <div class="stat-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3 data-count="10">0</h3>
+                        <p>Cloud Projects</p>
                     </div>
                     <div class="stat-item fade-in-up">
-                        <h3>50+</h3>
-                        <p><i class="fas fa-cogs"></i> Tasks Automated</p>
+                        <div class="stat-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3 data-count="50">0</h3>
+                        <p>Tasks Automated</p>
                     </div>
                     <div class="stat-item fade-in-up">
-                        <h3>5+</h3>
-                        <p><i class="fas fa-calendar-alt"></i> Years Experience</p>
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3 data-count="5">0</h3>
+                        <p>Years Experience</p>
                     </div>
                     <div class="stat-item fade-in-up">
+                        <div class="stat-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
                         <h3>24/7</h3>
-                        <p><i class="fas fa-server"></i> Systems Managed</p>
+                        <p>Systems Managed</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Preview Section -->
+        <section class="skills-preview">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="fade-in-up">Core Expertise</h2>
+                    <p class="fade-in-up">Technologies and practices I specialize in</p>
+                </div>
+                <div class="skills-preview-grid">
+                    <div class="skill-preview-item fade-in-up">
+                        <div class="skill-icon">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                        <h3>Containerization</h3>
+                        <p>Docker, Kubernetes, ECS</p>
+                    </div>
+                    <div class="skill-preview-item fade-in-up">
+                        <div class="skill-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3>Cloud Platforms</h3>
+                        <p>AWS, GCP, Azure</p>
+                    </div>
+                    <div class="skill-preview-item fade-in-up">
+                        <div class="skill-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Infrastructure as Code</h3>
+                        <p>Terraform, CloudFormation</p>
+                    </div>
+                    <div class="skill-preview-item fade-in-up">
+                        <div class="skill-icon">
+                            <i class="fas fa-code-branch"></i>
+                        </div>
+                        <h3>CI/CD Pipelines</h3>
+                        <p>Jenkins, GitHub Actions</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Featured Projects Preview -->
-        <section class="projects-content" style="background: white; padding: var(--spacing-xl) 0;">
+        <section class="projects-preview">
             <div class="container">
-                <div class="text-center" style="margin-bottom: var(--spacing-lg);">
-                    <h2>Featured Projects</h2>
-                    <p>Showcasing my latest DevOps and cloud infrastructure work</p>
+                <div class="text-center">
+                    <h2 class="fade-in-up">Featured Projects</h2>
+                    <p class="fade-in-up">Showcasing my latest DevOps and cloud infrastructure work</p>
                 </div>
-                <div class="projects-grid">
-                    <div class="project-card fade-in-up">
-                        <div class="project-image">
-                            <div style="background: linear-gradient(135deg, #3182ce 0%, #805ad5 100%); height: 200px; display: flex; align-items: center; justify-content: center; color: white;">
-                                <i class="fab fa-aws" style="font-size: 3rem;"></i>
+                <div class="projects-preview-grid">
+                    <div class="project-preview-card fade-in-up">
+                        <div class="project-preview-image">
+                            <div class="project-icon">
+                                <i class="fab fa-aws"></i>
                             </div>
                         </div>
-                        <div class="project-content">
+                        <div class="project-preview-content">
                             <h3>Cloud Infrastructure</h3>
                             <p>Scalable AWS infrastructure with Terraform and Kubernetes for high-availability applications.</p>
                             <div class="project-tech">
@@ -118,16 +180,19 @@
                                 <span class="tech-tag">Terraform</span>
                                 <span class="tech-tag">K8S</span>
                             </div>
+                            <a href="projects.html" class="project-link">
+                                View Project <i class="fas fa-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
 
-                    <div class="project-card fade-in-up">
-                        <div class="project-image">
-                            <div style="background: linear-gradient(135deg, #38a169 0%, #319795 100%); height: 200px; display: flex; align-items: center; justify-content: center; color: white;">
-                                <i class="fas fa-code-branch" style="font-size: 3rem;"></i>
+                    <div class="project-preview-card fade-in-up">
+                        <div class="project-preview-image">
+                            <div class="project-icon">
+                                <i class="fas fa-code-branch"></i>
                             </div>
                         </div>
-                        <div class="project-content">
+                        <div class="project-preview-content">
                             <h3>CI/CD Pipeline</h3>
                             <p>Automated deployment pipeline with Jenkins, GitHub Actions, and security scanning integration.</p>
                             <div class="project-tech">
@@ -135,11 +200,14 @@
                                 <span class="tech-tag">GitHub Actions</span>
                                 <span class="tech-tag">Docker</span>
                             </div>
+                            <a href="projects.html" class="project-link">
+                                View Project <i class="fas fa-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="text-center" style="margin-top: var(--spacing-lg);">
-                    <a href="projects.html" class="btn btn-outline" style="color: var(--primary); border-color: var(--primary);">
+                    <a href="projects.html" class="btn btn-outline fade-in-up">
                         <i class="fas fa-arrow-right"></i> View All Projects
                     </a>
                 </div>
@@ -150,13 +218,13 @@
         <section class="cta-section">
             <div class="container">
                 <div class="cta-content">
-                    <h2>Ready to Transform Your Infrastructure?</h2>
-                    <p>Let's discuss how we can optimize your cloud environment and deployment processes.</p>
+                    <h2 class="fade-in-up">Ready to Transform Your Infrastructure?</h2>
+                    <p class="fade-in-up">Let's discuss how we can optimize your cloud environment and deployment processes.</p>
                     <div class="cta-buttons">
-                        <a href="contact.html" class="btn btn-primary">
+                        <a href="contact.html" class="btn btn-primary fade-in-up">
                             <i class="fas fa-calendar"></i> Schedule a Call
                         </a>
-                        <a href="assets/Shantanu-Kokate-Resume.pdf" class="btn btn-secondary" target="_blank">
+                        <a href="assets/Shantanu-Kokate-Resume.pdf" class="btn btn-secondary fade-in-up" target="_blank">
                             <i class="fas fa-download"></i> Download Resume
                         </a>
                     </div>
@@ -213,6 +281,14 @@
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
+                    
+                    // Animate counting numbers
+                    if (entry.target.classList.contains('stat-item')) {
+                        const countElement = entry.target.querySelector('h3');
+                        if (countElement && countElement.hasAttribute('data-count')) {
+                            animateValue(countElement, 0, parseInt(countElement.getAttribute('data-count')), 2000);
+                        }
+                    }
                 }
             });
         }, observerOptions);
@@ -224,6 +300,20 @@
             el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
             observer.observe(el);
         });
+
+        // Number counting animation
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                element.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
 
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -238,6 +328,29 @@
                 }
             });
         });
+
+        // Typewriter effect for hero title
+        function initTypewriter() {
+            const titleElement = document.querySelector('.hero-title');
+            if (titleElement) {
+                const originalText = titleElement.textContent;
+                titleElement.textContent = '';
+                
+                let i = 0;
+                const typeWriter = () => {
+                    if (i < originalText.length) {
+                        titleElement.textContent += originalText.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 100);
+                    }
+                };
+                
+                setTimeout(typeWriter, 500);
+            }
+        }
+        
+        // Initialize typewriter effect when page loads
+        window.addEventListener('load', initTypewriter);
     </script>
 </body>
 </html>
